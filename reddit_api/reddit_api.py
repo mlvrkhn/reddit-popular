@@ -8,7 +8,7 @@ client_id="cxPOHYcA9qxAi-uEJu06GA",
     user_agent="TrendingTopicsFinder by /u/mlvrkhn"  
     )
 
-def get_trending_topics(reddit, subreddit_name, limit=10):
+def get_trending_topics(reddit, subreddit_name, limit=8):
     subreddit = reddit.subreddit(subreddit_name)
     trending_posts = subreddit.top(time_filter="day", limit=limit)
     results = []

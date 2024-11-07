@@ -35,4 +35,7 @@ reddit_env/
 .vscode/
 *.swp
 *.swo
-.DS_Store 
+.DS_Store
+
+# Market Research
+market_research/
