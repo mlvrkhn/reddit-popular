@@ -15,16 +15,15 @@ def find_pain_points(posts):
 
     return pain_points
 
-def generate_market_research_report(analyzed_posts):
-    report = []
-    for post in analyzed_posts:
+def generate_market_research_report(pain_points):
+    analyzed_posts = []
+    for post in pain_points:
         analysis = analyze_post_with_llm(post)
-        report.append({
-            "post_data": post,
-            "analysis": analysis,
-            "total_score": sum(analysis.values()) / 5 if isinstance(analysis, dict) else 0
-        })
-    return report
+        if analysis is None:
+            print("Skipping analysis due to API error")
+            continue
+        analyzed_posts.append(analysis)
+    return analyzed_posts
 
 def save_report(report, filename=None):
     if filename is None:

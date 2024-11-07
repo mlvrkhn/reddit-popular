@@ -1,4 +1,4 @@
-from openai import OpenAI
+from openai import OpenAI, RateLimitError
 import json
 from config import OPENAI_API_KEY
 
@@ -20,10 +20,16 @@ def analyze_post_with_llm(post_data):
     Format response as JSON.
     """
     
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.7
-    )
-    
-    return json.loads(response.choices[0].message.content) 
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7
+        )
+        return json.loads(response.choices[0].message.content)
+    except OpenAI.RateLimitError:
+        print("Rate limit exceeded. Please check your OpenAI quota and billing status.")
+        return None
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        return None
